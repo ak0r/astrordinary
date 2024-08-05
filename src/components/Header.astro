@@ -1,18 +1,19 @@
 ---
 import Container from "@/components/Container.astro"; 
+import NavBar from "@/components/NavBar.astro";
 ---
-<header class="sticky top-0 z-50 backdrop-blur">
+<header class="sticky top-0 z-50 h-24 backdrop-blur">
   <Container addtionalClasses="flex gap-4 items-center justify-between">
     <div>
       <a href="/">
         <h1 class="text-xl tracking-tight">Astrodinary</h1>
       </a>
     </div>
-    <div>
-      Menu
+    <div class="flex flex-1 justify-end sm:justify-center">
+      <NavBar />
     </div>
-    <div>
-      Theme Toggle
+    <div class="flex justify-end">
+      O
     </div>
   </Container>
 </header>

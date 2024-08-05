@@ -14,39 +14,70 @@ const seoKeywords = keywords ? keywords : [`${SiteMeta.fallbackKeywords}`];
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<head>
-  <!-- Global Metadata -->
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="generator" content={Astro.generator} />
-  
-  <!-- Canonical URL -->
-  <link rel="canonical" href={canonicalURL} />
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
 
-  <!-- Primary Meta Tags -->
-  <title>{seoTitle}</title>
-  <meta name="title" content={seoTitle} />
-  <meta name="description" content={seoDescription} />
-  <meta name='image' content={seoImage} />
-  <meta name='image:alt' content={seoDescription} />
-  <meta name='keywords' content={seoKeywords.join(', ')} />
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content={seoType} />
-  <meta property="og:url" content={Astro.url} />
-  <meta property="og:title" content={seoTitle} />
-  <meta property="og:description" content={seoDescription} />
-  <meta property="og:image" content={seoImage} />
-  <meta property='og:image:alt' content={seoDescription} />
+<!-- Primary Meta Tags -->
+<title>{seoTitle}</title>
+<meta name="title" content={seoTitle} />
+<meta name="description" content={seoDescription} />
+<meta name='image' content={seoImage} />
+<meta name='image:alt' content={seoDescription} />
+<meta name='keywords' content={seoKeywords.join(', ')} />
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={Astro.url} />
-  <meta property="twitter:title" content={seoTitle} />
-  <meta property="twitter:description" content={seoDescription} />
-  <meta property="twitter:image" content={seoImage} />
-  <meta property="twitter:image:alt" content={seoDescription} />
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={seoType} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={seoTitle} />
+<meta property="og:description" content={seoDescription} />
+<meta property="og:image" content={seoImage} />
+<meta property='og:image:alt' content={seoDescription} />
 
-  <ViewTransitions />
-</head>
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={seoTitle} />
+<meta property="twitter:description" content={seoDescription} />
+<meta property="twitter:image" content={seoImage} />
+<meta property="twitter:image:alt" content={seoDescription} />
+
+<ViewTransitions />
+
+<script is:inline>
+  function init() {
+    
+    const backToTop = document.getElementById("back-to-top");
+    backToTop?.addEventListener("click", (event) => scrollToTop(event));
+
+    const backToPrev = document.getElementById("back-to-prev");
+    backToPrev?.addEventListener("click", () => window.history.back());
+
+    document.addEventListener("scroll", onScroll);
+  }
+
+  function onScroll() {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add("scrolled");
+    } else {
+      document.documentElement.classList.remove("scrolled");
+    }
+  }
+
+  function scrollToTop(event) {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => init());
+  document.addEventListener("astro:after-swap", () => init());
+
+</script>
