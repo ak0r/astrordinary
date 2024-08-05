@@ -1,0 +1,9 @@
+---
+import { cn } from "@/utils/commonFunctions"
+const { addtionalClasses } = Astro.props;
+const baseClasses = "container mx-auto p-6 max-w-2xl";
+
+---
+<div class={cn(baseClasses, addtionalClasses)}>
+  <slot />
+</div>
