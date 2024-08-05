@@ -1,23 +1,29 @@
 ---
-import Head from "@/components/Head.astro"
+import BaseHead from "@/components/BaseHead.astro"
 import Header from "@/components/Header.astro"
 import Footer from "@/components/Footer.astro"
+import MobileDrawer from "@/components/MobileDrawer.astro"
 import { SiteMeta } from "@/configs/consts";
+import BottomNavbar from "@/components/BottomNavbar.astro";
+
 type Props = {
-  title: string;
-  description: string;
+  pageTitle: string;
+  pageDesc: string;
 };
 
-const { title, description } = Astro.props;
+const { pageTitle, pageDesc } = Astro.props;
 ---
 <!doctype html>
-<html lang="en">
-	<Head title={`${title} | ${SiteMeta.TITLE}`} description={description}/>
-	<body>
+<html lang="en" class="text-base h-full antialiased">
+	<head>
+		<BaseHead title={`${pageTitle} | ${SiteMeta.siteTitle}`} description={pageDesc} />
+	</head>
+	<body class="bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300 transition-colors duration-500 ease-in-out">
 		<Header />
 		<main>
 			<slot />
 		</main>
+		<!-- <BottomNavbar /> -->
 		<Footer />
 	</body>
 </html>

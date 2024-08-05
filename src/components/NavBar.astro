@@ -1,0 +1,67 @@
+---
+import { headerLinks } from "@/configs/consts";
+import CustomLink from "./CustomLink.astro";
+import { cn } from "@/utils/commonFunctions";
+---
+
+<!-- Widescreen navigation bar -->
+<div class="hidden sm:flex">
+  <ul class="flex overflow-hidden space-x-2 px-6 rounded-full font-medium">
+    {
+      headerLinks.map((link) => {
+        return (
+          <li>
+            <CustomLink href={link.url} className='p-2 rounded-lg transition-all text-neutral-500 dark:text-neutral-400' isCard>
+            {link.title}
+            </CustomLink>
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>
+
+<!-- Mobile menu button-->
+<div class="sm:hidden">
+  <button
+    id="mobileMenuButton"
+    class="relative font-medium p-2"
+  >
+    Menu +
+  </button>
+  <div 
+    id="mobileMenuCard"
+    class="absolute hidden z-10 transition-opacity ease-in-out duration-300">
+    <div class="bg-neutral-600/50 rounded-lg p-3 border border-neutral-400/40 shadow-lg backdrop-blur-sm">
+      <ul>
+        {
+          headerLinks.map((link) => {
+            return (
+              <li>
+                <CustomLink href={link.url} className='p-2 rounded-lg transition-all' isCard={false}>
+                {link.title}
+                </CustomLink>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("mobileMenuButton");
+    const menu = document.getElementById("mobileMenuCard");
+    button.addEventListener("click", function (event) {
+      event.stopPropagation(); // Prevent click event from bubbling up
+      menu.classList.toggle("hidden");
+    });
+    document.addEventListener("click", function (event) {
+      if (!menu.contains(event.target)) {
+        menu.classList.add("hidden");
+      }
+    });
+  });
+</script>
