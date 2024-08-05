@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro"
+import { SiteMeta } from "@/configs/consts";
 ---
 
-<BaseLayout title="" description="">
+<BaseLayout pageTitle=`${SiteMeta.siteTitle}` pageDesc=`${SiteMeta.siteDesc}`>
 	<h1>Astrordinary</h1>
 </BaseLayout>

@@ -3,16 +3,17 @@ import Head from "@/components/Head.astro"
 import Header from "@/components/Header.astro"
 import Footer from "@/components/Footer.astro"
 import { SiteMeta } from "@/configs/consts";
+
 type Props = {
-  title: string;
-  description: string;
+  pageTitle: string;
+  pageDesc: string;
 };
 
-const { title, description } = Astro.props;
+const { pageTitle, pageDesc } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
-	<Head title={`${title} | ${SiteMeta.TITLE}`} description={description}/>
+	<Head title={`${pageTitle} | ${SiteMeta.siteTitle}`} description={pageDesc}/>
 	<body>
 		<Header />
 		<main>

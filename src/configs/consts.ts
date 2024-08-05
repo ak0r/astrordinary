@@ -1,6 +1,10 @@
 export const SiteMeta = {
-  TITLE: "Astrordinary",
-  DESC: "Starter template for Astro.build with Tailwind CSS",
-  URL: "htps://example.com",
-  EMAIl: "androidak0r@gmail.com"
+  siteTitle: "Astrordinary",
+  siteDesc: "Starter template for Astro.build with Tailwind CSS",
+  siteUrl: "htps://example.com",
+  fallbackImage: "",
+  fallbackKeywords: [
+    'Web Developer',
+    'Travel Blogger',
+  ],
 };
