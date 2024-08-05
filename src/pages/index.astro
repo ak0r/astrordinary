@@ -2,12 +2,15 @@
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import { SiteMeta } from "@/configs/consts";
 import CustomLink from "@/components/CustomLink.astro";
+import Container from "@/components/Container.astro";
+import PageTitle from "@/components/PageTitle.astro"
 ---
 
 <BaseLayout pageTitle=`${SiteMeta.siteTitle}` pageDesc=`${SiteMeta.siteDesc}`>
-	<h1>Astrordinary</h1>
-
-	<CustomLink href="/" rightIcon="mdi:music-circle-outline">
-		Astrordinary
-	</CustomLink>
+	<Container additinalClasses="flex mt-12">
+		<PageTitle title="Hello" desc="World!" />
+		<CustomLink href="/" rightIcon="mdi:music-circle-outline">
+			Astrordinary
+		</CustomLink>
+	</Container>
 </BaseLayout>
