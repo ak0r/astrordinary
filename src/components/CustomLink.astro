@@ -21,7 +21,7 @@ const { href, className = "", leftIcon, rightIcon, external, underline = false, 
     href={href}
     target={external ? "_blank" : "_self"}
     class={cn(
-      "flex items-start rounded-lg hover:bg-black/5 hover:text-black dark:hover:bg-white/5 dark:hover:text-white transition-all duration-300 ease-in-out",
+      "flex items-center rounded-lg hover:bg-black/5 hover:text-black dark:hover:bg-white/5 dark:hover:text-white transition-all duration-300 ease-in-out",
       group && "group",
       className
     )}
@@ -36,16 +36,16 @@ const { href, className = "", leftIcon, rightIcon, external, underline = false, 
       href={href}
       target={external ? "_blank" : "_self"}
       class={cn(
-        "inline-flex justify-center align-middle hover:text-orange-500 dark:hover:text-orange-500 transition-colors duration-300 ease-in-out",
+        "flex items-center align-middle hover:text-orange-500 dark:hover:text-orange-500 transition-all duration-300 ease-in-out",
         underline && "underline underline-offset-[3px]",
         group && "group",
         className
       )}
       {...rest}
     >
-      { leftIcon && <Icon name={leftIcon} width={24} height={24} class="mr-1" /> }
+      { leftIcon && <Icon name={leftIcon} width={20} height={20} class="mr-1 text-neutral-500" /> }
       <slot />
-      { rightIcon && <Icon name={rightIcon} width={24} height={24} class="ml-1" /> }
+      { rightIcon && <Icon name={rightIcon} width={20} height={20} class="ml-1 text-neutral-500" /> }
     </a>
   )
 }
