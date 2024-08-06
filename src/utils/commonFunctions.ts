@@ -19,3 +19,20 @@ export function slugify(inputText?: string) {
       .replace(/^-+/, '')
       .replace(/-+$/, '');
 }
+
+export function getFormattedDate( date: string | number | Date ) {
+  const dateFormat: Intl.DateTimeFormatOptions = { 
+    day: "2-digit", 
+    month: "short", 
+    year: "numeric" 
+  };
+	return new Date(date).toLocaleDateString(undefined, dateFormat);
+}
+
+export function getShortDate( date: string | number | Date ) {
+  const dateFormat: Intl.DateTimeFormatOptions = { 
+    day: "2-digit", 
+    month: "short",
+  };
+	return new Date(date).toLocaleDateString(undefined, dateFormat);
+}
