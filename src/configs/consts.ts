@@ -1,3 +1,8 @@
+export type pageMeta = {
+  pageTitle: string;
+  pageSubtitle: string;
+};
+
 // The base details of site
 export const SiteMeta = {
   siteTitle: "Astrordinary",
@@ -31,3 +36,9 @@ export const socialLinks = [
   { name: "youtube", link: "https://www.youtube.com/", icon: "fa6-brands:youtube" },
   { name: "github", link: "https://www.github.com/", icon: "fa6-brands:github" },
 ];
+
+// Page headings
+export const pageAbout: pageMeta = {
+  pageTitle: "About me",
+  pageSubtitle: "Hello",
+};

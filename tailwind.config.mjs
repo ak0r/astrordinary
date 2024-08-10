@@ -4,10 +4,10 @@ export default {
 	theme: {
 		extend: {
 			colors:{
-				brand:{
-				},
 			},
 		},
 	},
-	plugins: [],
+	plugins: [
+		require('@tailwindcss/typography')
+	],
 }

@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry } from 'astro:content'
-import CustomLink from './CustomLink.astro';
-import { getFormattedDate } from '@/utils/commonFunctions'
+import { getFormattedDate } from '@/utils/commonFunctions';
+import LinkMod from '@/components/LinkMod.astro';
 
 type Props = {
   allPosts:CollectionEntry<"articles">[];
@@ -14,15 +14,18 @@ const { allPosts } = Astro.props;
   {
     allPosts.map((singlePost) => (
       <article>
-        <CustomLink 
+
+        <LinkMod 
           href=`/${singlePost.collection}/${singlePost.slug}`
-          className="flex flex-row px-1 py-2 sm:py-4 hover:p-3 align-middle" 
+          style='muted'
+          size='md'
+          class="text-sm items-center flex sm:py-5 hover:p-4 align-middle"
         >
-            <div class="text-sm sm:w-48 w-36 text-neutral-500">
+          <div class="text-sm sm:w-48 w-36 text-neutral-500">
               {getFormattedDate(singlePost.data.publishedDate)}
             </div>
             <div class="text-md w-full text-wrap"> {singlePost.data.title} </div>
-        </CustomLink>
+        </LinkMod>
         <div class="border-b border-neutral-500/10"></div>
       </article>
     ))

@@ -6,11 +6,9 @@ import CustomLink from "@/components/CustomLink.astro";
 import Container from "@/components/Container.astro";
 import PageTitle from "@/components/PageTitle.astro"
 import CollectionList from "@/components/CollectionList.astro";
-
+import LinkMod from '@/components/LinkMod.astro';
 import { getAllPublishedPosts } from "@/utils/blogFunctions";
 import { SiteMeta } from "@/configs/consts";
-
-const posts = await getAllPublishedPosts();
 
 const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
 ---
@@ -18,12 +16,15 @@ const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
 <BaseLayout pageTitle=`${SiteMeta.siteTitle}` pageDesc=`${SiteMeta.siteDesc}`>
 	<Container additinalClasses="flex mt-12">
 		<PageTitle title="Hello" desc="World!" />
-		<div class="collectionList flex flex-col p-3 sm:p-5 space-y-5 rounded-xl border border-neutral-500/30">
-			<CollectionList allPosts={allArticles}/>
-			<CustomLink href="/articles" className="justify-start text-sm" isCard={false}>
+		<div class="collectionList flex flex-col py-3 sm:py-5 space-y-5 rounded-xl">
+			<CollectionList allPosts={allArticles} />
+			<!-- <LinkMod 
+				href="/articles" 
+				style="muted"
+				class="flex items-center align-middle text-sm" >
 				View All
 				<Icon name={"mdi:arrow-right"} size={20} class={"ml-2 text-neutral-500"} />
-			</CustomLink>
+			</LinkMod> -->
 		</div>
 	</Container>
 </BaseLayout>
