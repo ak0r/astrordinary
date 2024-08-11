@@ -38,8 +38,8 @@ const { Content } = await article.render();
 const collection = article.collection;
 
 ---
-<BaseLayout pageTitle={""} pageDesc={""}>
-	<Container additinalClasses="flex mt-12">
+<BaseLayout>
+	<Container className="flex">
 		<article class="flex flex-col space-y-5 rounded-xl">
 			<div class="flex items-center">
         <LinkMod href={`/${collection}`} style={"hover"} size="sm" class="text-sm items-center hover:p-2 flex">

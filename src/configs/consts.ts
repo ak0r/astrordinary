@@ -42,3 +42,23 @@ export const pageAbout: pageMeta = {
   pageTitle: "About me",
   pageSubtitle: "Hello",
 };
+
+export const pageNow: pageMeta = {
+  pageTitle: "About me",
+  pageSubtitle: "Hello",
+};
+
+export const pageArticles: pageMeta = {
+  pageTitle: "All posts",
+  pageSubtitle: "All posts I published!",
+};
+
+export const pageTags: pageMeta = {
+  pageTitle: "All tags",
+  pageSubtitle: "All tags",
+};
+
+export const pageProjects: pageMeta = {
+  pageTitle: "About me",
+  pageSubtitle: "Hello",
+};

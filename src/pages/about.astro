@@ -1,16 +1,17 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro"
-import { SiteMeta } from "@/configs/consts";
-import CustomLink from "@/components/CustomLink.astro";
 import Container from "@/components/Container.astro";
-import PageTitle from "@/components/PageTitle.astro"
+import { pageAbout, SiteMeta } from "@/configs/consts";
+
+const pageTitle = {
+	title: `${pageAbout.pageTitle}` || "Title" ,
+  subTitle: `${pageAbout.pageSubtitle}` || "Sub-Title",
+};
+
 ---
 
-<BaseLayout pageTitle=`${SiteMeta.siteTitle}` pageDesc=`${SiteMeta.siteDesc}`>
-	<Container additinalClasses="flex mt-12">
-		<PageTitle title="Hello" desc="World!" />
-		<CustomLink href="/" rightIcon="mdi:music-circle-outline">
-			About Page
-		</CustomLink>
+<BaseLayout pageTitle=`${pageTitle.title}` pageDesc=`${pageTitle.subTitle}`>
+	<Container className="flex my-4">
+
 	</Container>
 </BaseLayout>

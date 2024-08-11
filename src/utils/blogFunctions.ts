@@ -25,5 +25,31 @@ export function getLimitedPosts(
     return filteredPosts;
 }
 
+/** returns all tags created from posts (inc duplicate tags)
+ *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
+ *  */
+export function getAllTags(
+  posts: CollectionEntry<"articles">[]) {
+	  return posts.flatMap((post) => [...post.data.tags]);
+}
 
+/** returns all unique tags created from posts
+ *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
+ *  */
+export function getUniqueTags(
+  posts: CollectionEntry<"articles">[]) {
+	  return [...new Set(getAllTags(posts))];
+}
 
+/** returns a count of each unique tag - [[tagName, count], ...]
+ *  Note: This function doesn't filter draft posts, pass it the result of getAllPosts above to do so.
+ *  */
+export function getUniqueTagsWithCount(
+  posts: CollectionEntry<"articles">[]): [string, number][] {
+	return [
+		...getAllTags(posts).reduce(
+			(acc, t) => acc.set(t, (acc.get(t) ?? 0) + 1),
+			new Map<string, number>(),
+		),
+	].sort((a, b) => b[1] - a[1]);
+}
