@@ -1,3 +1,25 @@
 ---
-
+import Container from "./Container.astro";
+import LinkMod from "./LinkMod.astro";
+import { socialLinks } from "@/configs/consts";
+import { Icon } from "astro-icon/components";
 ---
+<Container>
+  <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+    <div class="flex order-2 md:order-1">
+      <p class="text-sm text-neutral-400 dark:text-neutral-500">
+        &copy; {new Date().getFullYear()} John Doe. All rights reserved.
+      </p>
+    </div>
+    <div class="flex order-1 md:order-2">
+      {
+        socialLinks.map((social) => (
+          <LinkMod href={social.link} className='px-3 py-2' style="muted">
+              <Icon name={social.icon}>
+            </Icon>
+          </LinkMod>
+        ))
+      }
+    </div>
+  </div>
+</Container>

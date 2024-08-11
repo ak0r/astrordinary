@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import Container from "@/components/Container.astro";
+import CollectionList from "@/components/CollectionList.astro";
+import TagCloud from "@/components/TagCloud.astro";
+import { getAllPublishedPosts, getUniqueTags } from '@/utils/blogFunctions';
+import { slugify } from '@/utils/commonFunctions';
+import { pageTags } from "@/configs/consts";
+
+
+export async function getStaticPaths() {
+  const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
+  const allCollections = [...allArticles];
+  const allTags = getUniqueTags(allCollections);  
+  return allTags.map((tag) => {
+    const filteredPosts = allArticles.filter((post) => post.data.tags?.includes(tag));
+    return {
+      params: { tag: slugify(tag) },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
+const pageTitle = {
+	title: "#" + `${tag}` || "Title" ,
+  subTitle: "All articles from #" + `${tag}` || "Sub-Title",
+};
+
+---
+
+<BaseLayout pageTitle=`${pageTitle.title}` pageDesc=`${pageTitle.subTitle}`>
+	<Container className="flex my-4">
+		<div class="tagList flex flex-col py-3 sm:py-5 space-y-5 rounded-xl">
+			<div class="font-medium">
+				All Tags
+			</div>
+			<TagCloud />
+      <CollectionList allPosts={posts} />
+		</div>
+	</Container>
+</BaseLayout>

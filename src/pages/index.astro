@@ -1,16 +1,37 @@
 ---
+import { type CollectionEntry, getCollection } from "astro:content";
+
 import BaseLayout from "@/layouts/BaseLayout.astro"
-import { SiteMeta } from "@/configs/consts";
-import CustomLink from "@/components/CustomLink.astro";
+import CollectionList from "@/components/CollectionList.astro";
 import Container from "@/components/Container.astro";
-import PageTitle from "@/components/PageTitle.astro"
+import LinkMod from '@/components/LinkMod.astro';
+
+import { Icon } from "astro-icon/components";
+import { SiteMeta } from "@/configs/consts";
+import { getAllPublishedPosts } from "@/utils/blogFunctions";
+
+const pageTitle = {
+	title: `${SiteMeta.siteTitle}` || "Title" ,
+  subTitle: `${SiteMeta.siteDesc}` || "Sub-Title",
+};
+
+const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
 ---
 
-<BaseLayout pageTitle=`${SiteMeta.siteTitle}` pageDesc=`${SiteMeta.siteDesc}`>
-	<Container additinalClasses="flex mt-12">
-		<PageTitle title="Hello" desc="World!" />
-		<CustomLink href="/" rightIcon="mdi:music-circle-outline">
-			Home Page
-		</CustomLink>
+<BaseLayout pageTitle=`${pageTitle.title}` pageDesc=`${pageTitle.subTitle}`>
+	<Container className="flex my-4">
+		<div class="collectionList flex flex-col sm:py-5 space-y-5 rounded-xl">
+			<div class="font-medium">
+				Latest Posts
+			</div>
+			<CollectionList allPosts={allArticles.slice(0,3)} />
+			<LinkMod 
+				href="/articles" 
+				style="muted"
+				class="flex items-center align-middle text-sm mt-4" >
+					View All
+					<Icon name={"mdi:arrow-right"} size={20} class={"ml-2 text-neutral-500"} />
+			</LinkMod>
+		</div>
 	</Container>
 </BaseLayout>

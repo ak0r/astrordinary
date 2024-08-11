@@ -1,0 +1,25 @@
+---
+import { type CollectionEntry } from 'astro:content'
+import { getFormattedDate, slugify } from '@/utils/commonFunctions';
+import { getAllPublishedPosts, getUniqueTags } from '@/utils/blogFunctions';
+import LinkMod from '@/components/LinkMod.astro';
+
+const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
+const allCollections = [...allArticles];
+const allTags = getUniqueTags(allCollections);
+---
+
+<div class="tagscloud flex gap-3 flex-wrap">
+{
+  allTags.map((singleTag) => (
+    <LinkMod 
+      href=`/tags/${slugify(singleTag)}`
+      style='outline'
+      size='md'
+      class="text-sm items-center flex"
+    >
+      <div class="text-md w-full text-wrap"> {singleTag} </div>
+    </LinkMod>
+  ))
+}
+</div>

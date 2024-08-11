@@ -1,22 +1,23 @@
 ---
 import { headerLinks } from "@/configs/consts";
-import CustomLink from "./CustomLink.astro";
-import { cn } from "@/utils/commonFunctions";
+import LinkMod from "./LinkMod.astro";
 ---
 
 <!-- Widescreen navigation bar -->
 <div class="hidden sm:flex">
-  <ul class="flex overflow-hidden space-x-2 px-6 rounded-full font-medium">
+  <ul class="flex space-x-2 px-6 items-center align-middle">
     {
-      headerLinks.map((link) => {
-        return (
-          <li>
-            <CustomLink href={link.url} className='p-2 rounded-lg transition-all text-neutral-500 dark:text-neutral-400' isCard>
-            {link.title}
-            </CustomLink>
-          </li>
-        );
-      })
+      headerLinks.map((link) => (
+        <li>
+          <LinkMod 
+            href={link.url} 
+            size="sm"
+            class="py-2 px-3 font-medium" 
+            style="hover" >
+              {link.title}
+          </LinkMod>
+        </li>
+      ))
     }
   </ul>
 </div>
@@ -38,9 +39,13 @@ import { cn } from "@/utils/commonFunctions";
           headerLinks.map((link) => {
             return (
               <li>
-                <CustomLink href={link.url} className='p-2 rounded-lg transition-all' isCard={false}>
-                {link.title}
-                </CustomLink>
+                <LinkMod 
+                  href={link.url} 
+                  class="flex px-2 py-1" 
+                  size="sm" 
+                  style={"muted"}>
+                    {link.title}
+                </LinkMod>
               </li>
             );
           })
