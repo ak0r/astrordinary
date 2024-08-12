@@ -5,6 +5,13 @@ tags: [Astro, Static Sites, Web Development]
 publishedDate: 2024-08-05
 featuredImage: ""
 draft: false
+attachedImages:
+  featured: 
+    imagePath: "https://picsum.photos/900/600?random=1.webp"
+    description: ""
+  gallery:
+    galleryTitle: "Images I clicked"
+    galleryPath: "blog-1"
 ---
 
 As a Solution Architect, I am constantly on the lookout for frameworks and tools that can streamline development processes while delivering high performance. Recently, I made the decision to transition my personal blog and portfolio to Astro, and here’s why.

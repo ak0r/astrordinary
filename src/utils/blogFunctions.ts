@@ -53,3 +53,25 @@ export function getUniqueTagsWithCount(
 		),
 	].sort((a, b) => b[1] - a[1]);
 }
+
+export async function getGalleryImages(galleryPath: string) {
+  // 1. List all gallery files from collections path
+  let images = import.meta.glob<{ default: ImageMetadata }>(
+    "/src/assets/**/*.{jpeg,jpg}"
+  );
+
+  
+  // 2. Filter images by galleryId
+  images = Object.fromEntries(
+    Object.entries(images).filter(([key]) => key.includes(galleryPath))
+  );
+
+  // 3. Images are promises, so we need to resolve the glob promises
+  const resolvedImages = await Promise.all(
+    Object.values(images).map((image) => image().then((mod) => mod.default))
+  );
+
+  // 4. Shuffle images in random order
+  resolvedImages.sort(() => Math.random() - 0.5);
+  return resolvedImages;
+}

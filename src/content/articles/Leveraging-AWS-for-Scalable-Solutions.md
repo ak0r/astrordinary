@@ -5,6 +5,13 @@ tags: [AWS, Cloud Computing, Scalability]
 publishedDate: 2024-08-08
 featuredImage: ""
 draft: false
+attachedImages:
+  featured: 
+    imagePath: "https://picsum.photos/900/600?random=1.webp"
+    description: ""
+  gallery:
+    galleryTitle: "Images I clicked"
+    galleryPath: "blog-1"
 ---
 
 ## Leveraging AWS for Scalable Solutions

@@ -1,0 +1,32 @@
+---
+import { Picture } from "astro:assets";
+import { glob } from 'glob';
+import { getGalleryImages } from "@/utils/blogFunctions";
+
+type Props = {
+  galleryPath?: string;
+  galleryAlt?: string;
+}
+
+const { galleryPath = "", galleryAlt = "" } = Astro.props;
+const galleryImages = await getGalleryImages(galleryPath);
+---
+<div class="masonry-grid columns-2 sm:columns-2 gap-2 sm:gap-4">
+  {
+    galleryPath && (
+    galleryImages.map((image) => (
+      <div class="image-container" id="gallery">
+        <a href={image.src} class="image-link glightbox">
+          <Picture
+            src={image}
+            alt={galleryAlt}
+            aspect-ratio="3:2"
+            loading="lazy"
+            format=['avif', 'webp', 'jpeg']
+            class="rounded-lg image transition-all mb-2 sm:mb-4 border border-transparent hover:border-black/50 dark:hover:border-white/50 "
+          />
+        </a>
+      </div>
+    )))
+  }
+</div>

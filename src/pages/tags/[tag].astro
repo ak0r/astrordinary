@@ -6,8 +6,6 @@ import CollectionList from "@/components/CollectionList.astro";
 import TagCloud from "@/components/TagCloud.astro";
 import { getAllPublishedPosts, getUniqueTags } from '@/utils/blogFunctions';
 import { slugify } from '@/utils/commonFunctions';
-import { pageTags } from "@/configs/consts";
-
 
 export async function getStaticPaths() {
   const allArticles: CollectionEntry<"articles">[] = await getAllPublishedPosts();
@@ -34,12 +32,12 @@ const pageTitle = {
 
 <BaseLayout pageTitle=`${pageTitle.title}` pageDesc=`${pageTitle.subTitle}`>
 	<Container className="flex my-4">
-		<div class="tagList flex flex-col py-3 sm:py-5 space-y-5 rounded-xl">
+		<div class="tagList flex flex-col py-3 sm:py-5 gap-5 rounded-xl">
 			<div class="font-medium">
 				All Tags
 			</div>
 			<TagCloud />
-      <CollectionList allPosts={posts} />
+      <CollectionList allPosts={posts} className="mt-6" />
 		</div>
 	</Container>
 </BaseLayout>
