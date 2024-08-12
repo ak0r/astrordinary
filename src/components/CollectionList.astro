@@ -1,20 +1,20 @@
 ---
 import { type CollectionEntry } from 'astro:content'
-import { getFormattedDate } from '@/utils/commonFunctions';
 import LinkMod from '@/components/LinkMod.astro';
+import { getFormattedDate, cn } from '@/utils/commonFunctions';
 
 type Props = {
-  allPosts:CollectionEntry<"articles">[];
+  allPosts: CollectionEntry<"articles">[];
+  className?: string;
 }
 
-const { allPosts } = Astro.props;
+const { allPosts, className } = Astro.props;
 ---
 
-<div class="flex flex-col">
+<div class={cn("flex flex-col", className)}>
   {
     allPosts.map((singlePost) => (
       <article>
-
         <LinkMod 
           href=`/${singlePost.collection}/${singlePost.slug}`
           style='muted'

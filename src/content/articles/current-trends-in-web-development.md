@@ -5,6 +5,10 @@ tags: [Web Development, Trends, JavaScript]
 publishedDate: 2024-08-06
 featuredImage: ""
 draft: false
+attachedImages:
+  featured: 
+    imagePath: "https://picsum.photos/900/600?random=1.webp"
+    description: ""
 ---
 
 ## Current Trends in Web Development

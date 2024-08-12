@@ -5,6 +5,10 @@ tags: [Cloudflare, Hosting, Performance]
 publishedDate: 2024-08-07
 featuredImage: ""
 draft: false
+attachedImages:
+  featured: 
+    imagePath: "https://picsum.photos/900/600?random=1.webp"
+    description: ""
 ---
 
 ## The Benefits of Cloudflare for Hosting

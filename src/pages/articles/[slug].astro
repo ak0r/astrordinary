@@ -1,14 +1,14 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import { Icon } from "astro-icon/components";
+import Picture from "astro/components/Picture.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro"
-import CustomLink from "@/components/CustomLink.astro";
 import Container from "@/components/Container.astro";
-import PageTitle from "@/components/PageTitle.astro";
 import LinkMod from "@/components/LinkMod.astro";
 import Prose from "@/components/Prose.astro";
-import { getFormattedDate } from '@/utils/commonFunctions';
+import MasonryGallery from "@/components/MasonryGallery.astro";
+
+import { getFormattedDate, slugify } from '@/utils/commonFunctions';
 import { getAllPublishedPosts } from "@/utils/blogFunctions";
+import { Icon } from "astro-icon/components";
 
 
 export async function getStaticPaths() {
@@ -30,24 +30,44 @@ const {
   article,
   article: {
     slug,
-    data: { title, tags, publishedDate, featuredImage, },
+    data: { title, tags, publishedDate, attachedImages },
   },
 } = Astro.props;
 
+const { featured, gallery } = attachedImages || {};
 const { Content } = await article.render();
 const collection = article.collection;
+const hasGallery = gallery?.galleryPath && gallery?.galleryPath?.length > 0;
+const pageTitle = {
+	title: `${title}` || "Title" ,
+  subTitle: "" || "Sub-Title",
+};
 
 ---
-<BaseLayout>
+<BaseLayout pageTitle=`${pageTitle.title}` pageDesc=`${pageTitle.subTitle}` showTitle={false}>
 	<Container className="flex">
 		<article class="flex flex-col space-y-5 rounded-xl">
 			<div class="flex items-center">
         <LinkMod href={`/${collection}`} style={"hover"} size="sm" class="text-sm items-center hover:p-2 flex">
-          <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path></svg>
+          <Icon name="mdi:arrow-back" size={16}/>
           &nbsp All Articles
         </LinkMod>
       </div>
       <div class="space-y-5">
+        <div class="flex">
+          {
+            tags.length > 0 && (
+                <div class="flex flex-wrap mt-4 gap-x-3 gap-y-1 text-md text-zinc-500 dark:text-zinc-400">
+                    {tags.map((tag: string) => (
+                        <LinkMod href={`/tags/${slugify(tag)}`} className="text-sm hover:underline" style="muted">
+                            #{tag}
+                        </LinkMod>
+                    ))}
+                </div>
+            )
+          }
+        </div>
+
         <!-- Post title and meta -->
         <div class="mb-8">
         {
@@ -55,10 +75,38 @@ const collection = article.collection;
           <time class="text-md font-base text-neutral-500">{getFormattedDate(publishedDate)}</time>
         }
         </div>
+
+        <!-- Featured image -->
+        {
+          featured && (
+            <div class="featuredImage">
+              <Picture 
+                src={featured.imagePath} 
+                alt={featured.description}
+                inferSize
+                aspect-ratio="3:2" 
+                loading="lazy"
+                format=['avif', 'webp', 'jpeg']
+                class="rounded-lg ring-1 ring-zinc-900/30  dark:ring-white/30"
+              />
+            </div>
+          )
+        }
+
         <!-- Post content -->
         <Prose>
           <Content />
         </Prose>
+
+        <!-- Gallery if available -->
+        {
+          (hasGallery) && (
+            <>
+              <h2 class="font-medium text-md">{gallery.galleryTitle}</h2>
+              <MasonryGallery galleryPath={gallery.galleryPath} galleryAlt={gallery.galleryTitle} />
+            </>
+          )
+        }
       </div>
 		</article>
 	</Container>

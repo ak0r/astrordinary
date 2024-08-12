@@ -11,9 +11,10 @@ import { SiteMeta } from "@/configs/consts";
 type Props = {
   pageTitle: string;
   pageDesc: string;
+	showTitle?: boolean;
 };
 
-const { pageTitle, pageDesc } = Astro.props;
+const { pageTitle, pageDesc, showTitle = true } = Astro.props;
 
 ---
 <!doctype html>
@@ -24,9 +25,9 @@ const { pageTitle, pageDesc } = Astro.props;
 	<body class="bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300 transition-colors duration-500 ease-in-out">
 		<Header />
 		<main>
-			<Container className="">
+			<Container>
 				{
-					pageTitle && <PageTitle title=`${pageTitle}` desc=`${pageDesc}` />
+					showTitle && <PageTitle title=`${pageTitle}` desc=`${pageDesc}` />
 				}
 			</Container>
 			<slot />

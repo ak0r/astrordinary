@@ -5,6 +5,14 @@ tags: [CI/CD, DevOps, Automation]
 publishedDate: 2024-08-09
 featuredImage: ""
 draft: false
+galleryPath: "blog-1"
+attachedImages:
+  featured: 
+    imagePath: "https://picsum.photos/900/600?random=1.webp"
+    description: ""
+  gallery:
+    galleryTitle: "Images I clicked"
+    galleryPath: "blog-1"
 ---
 
 ## Building a Modern CI/CD Pipeline
