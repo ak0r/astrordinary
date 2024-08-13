@@ -1,6 +1,7 @@
 ---
 import Container from "@/components/Container.astro"; 
 import NavBar from "@/components/NavBar.astro";
+import ThemeSwitcher from "./ThemeSwitcher.astro";
 ---
 <header class="sticky top-0 z-50 py-4 backdrop-blur items-center align-middle">
   <Container className="flex flex-row gap-4 items-center justify-between">
@@ -13,7 +14,7 @@ import NavBar from "@/components/NavBar.astro";
       <NavBar />
     </div>
     <div class="flex justify-end">
-      O
+      <ThemeSwitcher />
     </div>
   </Container>
 </header>
