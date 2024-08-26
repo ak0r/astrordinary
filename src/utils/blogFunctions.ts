@@ -1,5 +1,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import { slugify } from "./commonFunctions";
+import fs from 'fs';
+import path from 'path';
 
 const isProd = import.meta.env.PROD;
 
@@ -74,4 +76,19 @@ export async function getGalleryImages(galleryPath: string) {
   // 4. Shuffle images in random order
   resolvedImages.sort(() => Math.random() - 0.5);
   return resolvedImages;
+}
+
+
+export function loadInternalGalleryImages(galleryPath: string): { imagePath: string; alt?: string; caption?: string }[] {
+  let images = import.meta.glob("/src/assets/**/*.{jpeg,jpg}");
+
+  images = Object.fromEntries(
+    Object.entries(images).filter(([key]) => key.includes(galleryPath))
+  );
+
+  return Object.keys(images).map((key) => ({
+    imagePath: images[key],
+    alt: '',
+    caption: ''
+  }));
 }

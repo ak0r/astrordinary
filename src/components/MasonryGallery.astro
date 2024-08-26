@@ -1,7 +1,7 @@
 ---
 import { Picture } from "astro:assets";
 import { glob } from 'glob';
-import { getGalleryImages } from "@/utils/blogFunctions";
+import { getGalleryImages, loadInternalGalleryImages } from "@/utils/blogFunctions";
 
 type Props = {
   galleryPath?: string;
@@ -10,6 +10,7 @@ type Props = {
 
 const { galleryPath = "", galleryAlt = "" } = Astro.props;
 const galleryImages = await getGalleryImages(galleryPath);
+
 ---
 <div class="masonry-grid columns-2 sm:columns-2 gap-2 sm:gap-4">
   {
