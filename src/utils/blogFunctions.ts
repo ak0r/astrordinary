@@ -59,9 +59,8 @@ export function getUniqueTagsWithCount(
 export async function getGalleryImages(galleryPath: string) {
   // 1. List all gallery files from collections path
   let images = import.meta.glob<{ default: ImageMetadata }>(
-    "/src/assets/**/*.{jpeg,jpg}"
+    "/src/content/**/images/*.{jpeg,jpg,png,gif}"
   );
-
   
   // 2. Filter images by galleryId
   images = Object.fromEntries(
@@ -76,19 +75,4 @@ export async function getGalleryImages(galleryPath: string) {
   // 4. Shuffle images in random order
   resolvedImages.sort(() => Math.random() - 0.5);
   return resolvedImages;
-}
-
-
-export function loadInternalGalleryImages(galleryPath: string): { imagePath: string; alt?: string; caption?: string }[] {
-  let images = import.meta.glob("/src/assets/**/*.{jpeg,jpg}");
-
-  images = Object.fromEntries(
-    Object.entries(images).filter(([key]) => key.includes(galleryPath))
-  );
-
-  return Object.keys(images).map((key) => ({
-    imagePath: images[key],
-    alt: '',
-    caption: ''
-  }));
 }

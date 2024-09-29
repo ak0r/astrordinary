@@ -9,7 +9,22 @@ import MasonryGallery from "@/components/MasonryGallery.astro";
 import { getFormattedDate, slugify } from '@/utils/commonFunctions';
 import { getAllPublishedPosts } from "@/utils/blogFunctions";
 import { Icon } from "astro-icon/components";
+import { glob } from 'glob';
 
+
+async function ImageFetcher(pattern: string) {
+  const files = glob.sync(pattern, { posix: true })
+  const imagePromises = files.map(async (file) => {
+    const src = file.replace('public', '')
+    return { src }
+  })
+
+  const imageFiles = await Promise.all(imagePromises)
+
+  imageFiles.sort((a, b) => a.src.localeCompare(b.src))
+
+  return imageFiles
+}
 
 export async function getStaticPaths() {
   const articles = await getAllPublishedPosts();
@@ -26,18 +41,24 @@ export async function getStaticPaths() {
   });
 }
 
+
 const {
   article,
   article: {
     slug,
-    data: { title, tags, publishedDate, attachedImages },
+    data: { title, tags, publishedDate, coverImage, gallery },
   },
 } = Astro.props;
 
-const { featured, gallery } = attachedImages || {};
+const currentPostName = article.id;
+const currentDirectory = currentPostName.split('/')[0];
+
+console.log("All Images " + currentDirectory )
+
+const { useInternalGallery, externalImages } = gallery || {};
 const { Content } = await article.render();
 const collection = article.collection;
-const hasGallery = gallery?.galleryPath && gallery?.galleryPath?.length > 0;
+// const hasGallery = gallery?.galleryPath && gallery?.galleryPath?.length > 0;
 const pageTitle = {
 	title: `${title}` || "Title" ,
   subTitle: "" || "Sub-Title",
@@ -78,11 +99,11 @@ const pageTitle = {
 
         <!-- Featured image -->
         {
-          featured && (
+          coverImage && (
             <div class="featuredImage">
               <Picture 
-                src={featured.imagePath} 
-                alt={featured.description}
+                src={coverImage.imagePath} 
+                alt={coverImage.description}
                 inferSize
                 aspect-ratio="3:2" 
                 loading="lazy"
@@ -100,13 +121,14 @@ const pageTitle = {
 
         <!-- Gallery if available -->
         {
-          (hasGallery) && (
+          (useInternalGallery) && (
             <>
               <h2 class="font-medium text-md">{gallery.galleryTitle}</h2>
-              <MasonryGallery galleryPath={gallery.galleryPath} galleryAlt={gallery.galleryTitle} />
+              <MasonryGallery galleryPath={currentDirectory} galleryAlt={gallery.galleryTitle} externalImages={externalImages}/>
             </>
           )
         }
+
       </div>
 		</article>
 	</Container>

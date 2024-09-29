@@ -4,11 +4,15 @@ excerpt: An analysis of the latest trends shaping web development.
 tags: [Web Development, Trends, JavaScript]
 publishedDate: 2024-08-06
 featuredImage: ""
+slug: blog-2
 draft: false
-attachedImages:
-  featured: 
-    imagePath: "https://picsum.photos/900/600?random=1.webp"
-    description: ""
+coverImage: 
+  imagePath: "https://picsum.photos/900/600?random=1.webp"
+  description: ""
+gallery:
+  galleryTitle: "Current Trends in Web Development"
+  galleryDescription: ""
+  useInternalGallery: true
 ---
 
 ## Current Trends in Web Development

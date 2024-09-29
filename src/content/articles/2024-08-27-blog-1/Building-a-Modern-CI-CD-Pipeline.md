@@ -3,16 +3,12 @@ title: Building a Modern CI/CD Pipeline
 excerpt: Best practices for creating a robust CI/CD pipeline.
 tags: [CI/CD, DevOps, Automation]
 publishedDate: 2024-08-09
+slug: blog-1
 featuredImage: ""
 draft: false
-galleryPath: "blog-1"
-attachedImages:
-  featured: 
-    imagePath: "https://picsum.photos/900/600?random=1.webp"
-    description: ""
-  gallery:
-    galleryTitle: "Images I clicked"
-    galleryPath: "blog-1"
+coverImage: 
+  imagePath: "https://picsum.photos/900/600?random=1.webp"
+  description: ""
 ---
 
 ## Building a Modern CI/CD Pipeline

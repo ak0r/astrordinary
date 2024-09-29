@@ -1,16 +1,33 @@
 ---
-import { Picture } from "astro:assets";
-import { glob } from 'glob';
-import { getGalleryImages, loadInternalGalleryImages } from "@/utils/blogFunctions";
+import { Picture, getImage } from "astro:assets";
+import { getGalleryImages } from "@/utils/blogFunctions";
 
 type Props = {
   galleryPath?: string;
   galleryAlt?: string;
+  externalImages? ;
 }
 
-const { galleryPath = "", galleryAlt = "" } = Astro.props;
+const { galleryPath = "", galleryAlt = "", externalImages } = Astro.props;
+
 const galleryImages = await getGalleryImages(galleryPath);
 
+const imageAssets = await Promise.all(
+externalImages.map(async (image) => {
+    if (image) {
+      return await getImage({
+        src: image.src,
+        alt: image.alt,
+        inferSize: true,
+        width: "1920",
+        decoding: "async",
+        format: "avif",
+        loading: "lazy"
+      });
+    }
+    return null;
+  }),
+);
 ---
 <div class="masonry-grid columns-2 sm:columns-2 gap-2 sm:gap-4">
   {
