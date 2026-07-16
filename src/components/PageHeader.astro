@@ -9,7 +9,7 @@ interface Props {
 const { title, meta, lede, class: className } = Astro.props;
 ---
 <header class:list={["mt-2 py-3 md:mt-4 md:py-6", className]}>
-  <div class="grid gap-2 md:grid-cols-[9rem_1fr] md:gap-6 items-start">
+  <div class="grid gap-2 md:grid-cols-[9rem_1fr] md:gap-6 first:items-start items-start">
     <h1 class="font-serif text-2xl font-semibold tracking-tight">
       {title}
     </h1>

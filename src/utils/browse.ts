@@ -15,6 +15,7 @@ export type Entry = Post | Note;
 export interface BrowseValue {
   value: string;
   slug:  string;
+  count: number;
 }
 
 function metaValuesOf(entry: Entry, key: string): string[] {
@@ -31,20 +32,34 @@ function metaValuesOf(entry: Entry, key: string): string[] {
  * /browse/<indexSlug>/<valueSlug>).
  */
 export function getMetaValues(entries: Entry[], key: string): BrowseValue[] {
-  const bySlug = new Map<string, string>();
+  const values = new Map<
+    string,
+    { value: string; count: number }
+  >();
 
   for (const entry of entries) {
     for (const value of metaValuesOf(entry, key)) {
       const slug = slugify(value);
-      if (slug && !bySlug.has(slug)) {
-        bySlug.set(slug, value);
+      if (!slug) continue;
+
+      const existing = values.get(slug);
+
+      if (existing) {
+        existing.count++;
+      } else {
+        values.set(slug, {
+          value,
+          count: 1,
+        });
       }
     }
   }
 
-  return Array.from(bySlug, ([slug, value]) => ({ slug, value })).sort(
-    (a, b) => a.value.localeCompare(b.value)
-  );
+  return Array.from(values, ([slug, { value, count }]) => ({
+    slug,
+    value,
+    count,
+  })).sort((a, b) => a.value.localeCompare(b.value));
 }
 
 /** Entries whose `meta[key]` (flattened) includes the given value slug. */
@@ -59,12 +74,20 @@ export function filterByMetaSlug(
 }
 
 /** Unique publication years across the given entries, newest first. */
-export function getYears(entries: Entry[]): string[] {
-  const years = new Set(
-    entries.map((entry) => String(entry.data.published.getFullYear()))
-  );
+export function getYears(entries: Entry[]): BrowseValue[] {
+  const years = new Map<string, number>();
 
-  return Array.from(years).sort((a, b) => Number(b) - Number(a));
+  for (const entry of entries) {
+    const year = String(entry.data.published.getFullYear());
+
+    years.set(year, (years.get(year) ?? 0) + 1);
+  }
+
+  return Array.from(years, ([value, count]) => ({
+    value,
+    slug: value,
+    count,
+  })).sort((a, b) => Number(b.value) - Number(a.value));
 }
 
 /** Entries published in the given year. */

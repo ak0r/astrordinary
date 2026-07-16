@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Section from "@/components/Section.astro";
+import BrowseValueList from "@/components/BrowseValueList.astro";
+import { getMetaValues, getYears } from "@/utils/browse";
+import { getAssetPath } from "@/utils/url";
+import type { BrowseIndexConfig } from "@/types";
+
+/**
+ * The Browse Index's per-tab content: a "Years" section (if enabled) plus
+ * one section per configured index, computed for whatever entry subset the
+ * caller passes in. Shared so /browse's three tab panels render this once
+ * instead of duplicating the markup per tab.
+ */
+interface Props {
+  entries:   (CollectionEntry<"posts"> | CollectionEntry<"notes">)[];
+  indexes:   BrowseIndexConfig[];
+  showYears: boolean;
+}
+
+const { entries, indexes, showYears } = Astro.props;
+const years = getYears(entries);
+---
+
+{showYears && years.length > 0 && (
+  <Section title="Years">
+    <BrowseValueList
+      items={getYears(entries).map(({ value, slug, count }) => ({
+        label: value,
+        href: getAssetPath(`browse/years/${slug}`),
+        meta: `(${count})`,
+      }))}
+    />
+  </Section>
+)}
+
+{indexes.map((index) => {
+  const values = getMetaValues(entries, index.key);
+
+  if (values.length === 0) return null;
+  return (
+    <Section title={index.title}>
+      <BrowseValueList
+      items={getMetaValues(entries, index.key).map(({ value, slug, count }) => ({
+        label: value,
+        href: getAssetPath(`browse/${index.slug}/${slug}`),
+        meta: `(${count})`,
+      }))}
+    />
+  </Section>
+  );
+})}

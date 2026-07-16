@@ -1,0 +1,47 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import Section from "@/components/Section.astro";
+import NoteFeed from "@/components/NoteFeed.astro";
+import Feed from "@/components/Feed.astro";
+
+import { getAllPosts, getAllNotes, getAllEntries } from "@/utils/content";
+import { getYears, filterByYear } from "@/utils/browse";
+import { getAssetPath } from "@/utils/url";
+
+export async function getStaticPaths() {
+  const allEntries = await getAllEntries();
+  const years = getYears(allEntries);
+
+  return years.map(({ value }) => ({
+    params: { year: value },
+  }));
+}
+
+const { year } = Astro.params;
+
+const allPosts = await getAllPosts();
+const allNotes = await getAllNotes();
+const filteredPosts = filterByYear(allPosts, year!);
+const filteredNotes = filterByYear(allNotes, year!);
+
+---
+<BaseLayout title={`${year} · Browse`}>
+  <div class="page-width">
+    
+    <PageHeader lede=`Articles and notes from ${year}` title={year} />
+
+    { filteredPosts.length > 0 && (
+      <Section title="Articles" href="/posts" action="View All">
+        <Feed entries={filteredPosts} />
+      </Section>
+    )}
+    
+    { filteredNotes.length > 0 && (
+      <Section title="Notes" href="/notes" action="View All">
+        <NoteFeed entries={filteredNotes} />
+      </Section>
+    )}
+    
+  </div>
+</BaseLayout>

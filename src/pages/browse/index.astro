@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageHeader from "@/components/PageHeader.astro";
+
+import BrowseDimensions from "@/components/BrowseDimensions.astro";
+import { getAllEntries } from "@/utils/content";
+import { getConfig } from "@/utils/config";
+
+const siteConfig = await getConfig();
+const indexes = siteConfig.browse?.indexes ?? [];
+const showYears = siteConfig.browse?.years ?? false;
+
+const allEntries = await getAllEntries();
+
+---
+<BaseLayout title="Browse">
+  <div class="page-width">
+    <PageHeader
+      title="Browse"
+      lede="Find writing by year, category or trip"
+    />
+    <BrowseDimensions entries={allEntries} indexes={indexes} showYears={showYears} />
+  </div>
+</BaseLayout>

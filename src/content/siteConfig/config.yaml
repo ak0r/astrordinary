@@ -89,9 +89,9 @@
   browse:
     years: true
     indexes:
-      - key: place
-        title: Places
-        slug: places
+      - key: category
+        title: Categories
+        slug: categories
       - key: trip
         title: Trips
         slug: trips
