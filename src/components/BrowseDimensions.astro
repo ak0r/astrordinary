@@ -1,52 +1,41 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import Section from "@/components/Section.astro";
-import BrowseValueList from "@/components/BrowseValueList.astro";
-import { getMetaValues, getYears } from "@/utils/browse";
-import { getAssetPath } from "@/utils/url";
-import type { BrowseIndexConfig } from "@/types";
+import BrowseValueList from "./BrowseValueList.astro";
+import Section from "./Section.astro";
 
-/**
- * The Browse Index's per-tab content: a "Years" section (if enabled) plus
- * one section per configured index, computed for whatever entry subset the
- * caller passes in. Shared so /browse's three tab panels render this once
- * instead of duplicating the markup per tab.
- */
+import { getBrowseValues } from "@/utils/browse";
+
+import type { CollectionEntry } from "astro:content";
+import type { BrowseDimension } from "@/types";
+
 interface Props {
-  entries:   (CollectionEntry<"posts"> | CollectionEntry<"notes">)[];
-  indexes:   BrowseIndexConfig[];
-  showYears: boolean;
+  entries: CollectionEntry<any>[];
+  dimensions: BrowseDimension[];
 }
 
-const { entries, indexes, showYears } = Astro.props;
-const years = getYears(entries);
+const {
+  entries,
+  dimensions,
+} = Astro.props;
 ---
 
-{showYears && years.length > 0 && (
-  <Section title="Years">
-    <BrowseValueList
-      items={getYears(entries).map(({ value, slug, count }) => ({
-        label: value,
-        href: getAssetPath(`browse/years/${slug}`),
-        meta: `(${count})`,
-      }))}
-    />
-  </Section>
-)}
+{
+  dimensions.map((dimension) => {
+    const values = getBrowseValues(entries, dimension.key);
 
-{indexes.map((index) => {
-  const values = getMetaValues(entries, index.key);
+    if (!values.length) {
+      return null;
+    }
 
-  if (values.length === 0) return null;
-  return (
-    <Section title={index.title}>
-      <BrowseValueList
-      items={getMetaValues(entries, index.key).map(({ value, slug, count }) => ({
-        label: value,
-        href: getAssetPath(`browse/${index.slug}/${slug}`),
-        meta: `(${count})`,
-      }))}
-    />
-  </Section>
-  );
-})}
+    return (
+      <Section title={dimension.title}>
+        <BrowseValueList
+          items={values.map((value) => ({
+            label: value.value,
+            meta: value.count,
+            href: `/browse/${dimension.slug}/${value.slug}/`,
+          }))}
+        />
+      </Section>
+    );
+  })
+}

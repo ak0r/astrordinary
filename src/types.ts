@@ -4,66 +4,94 @@ export type Post = CollectionEntry<"posts">;
 export type Note = CollectionEntry<"notes">;
 export type Page = CollectionEntry<"pages">;
 
-export type SocialIcon = 'github' | 'mastodon' | 'twitter' | 'rss' | 'email' | 'instagram' | 'youtube'
+export type SocialIcon =
+  | "github"
+  | "mastodon"
+  | "twitter"
+  | "rss"
+  | "email"
+  | "instagram"
+  | "youtube";
 
 export interface NavItem {
-  title: string
-  url:   string
+  title: string;
+  url: string;
 }
 
 export interface SocialItem {
-  title: string
-  url:   string
-  icon?: SocialIcon
+  title: string;
+  url: string;
+  icon?: SocialIcon;
 }
 
-/** One browsable dimension, sourced from `meta[key]` on posts/notes. */
-export interface BrowseIndexConfig {
-  key:   string  // child key inside an entry's `meta` object
-  title: string  // display title, e.g. "Places"
-  slug:  string  // URL segment, e.g. "places" -> /browse/places
+/* -------------------------------------------------------------------------- */
+/* Browse */
+/* -------------------------------------------------------------------------- */
+
+export interface BrowseDimension {
+  /**
+   * Data source.
+   *
+   * Built-in:
+   *   published
+   *   category
+   *   tags
+   *
+   * Otherwise resolves to:
+   *   entry.data.meta[key]
+   */
+  key: string;
+
+  /** Display title. */
+  title: string;
+
+  /** URL segment. */
+  slug: string;
+
+  sort?: "asc" | "desc";
 }
 
 export interface BrowseConfig {
-  years?:   boolean
-  indexes?: BrowseIndexConfig[]
+  dimensions?: BrowseDimension[];
 }
+
+/* -------------------------------------------------------------------------- */
 
 export interface UserConfig {
   // site identity
-  title:       string
-  description: string
-  url:         string
-  locale?:     string
+  title: string;
+  description: string;
+  url: string;
+  locale?: string;
 
   // author
   author: {
-    name:    string
-    bio?:    string
-    url?:    string
-    avatar?: string
-  }
+    name: string;
+    bio?: string;
+    url?: string;
+    avatar?: string;
+  };
 
   // assets
-  logo?:    string
-  ogImage?: string
+  logo?: string;
+  ogImage?: string;
 
   // navigation
-  navigation?:  NavItem[]
-  footerLinks?: NavItem[]
-  social?:      SocialItem[]
+  navigation?: NavItem[];
+  footerLinks?: NavItem[];
+  social?: SocialItem[];
 
   // content display
-  heroText?:       string
-  notebookQuote?:  string
-  tagline?:        string
-  footerCredits?:  string
-  postsPerPage?:  number
-  recentPosts?:   number
+  heroText?: string;
+  notebookQuote?: string;
+  tagline?: string;
+  footerCredits?: string;
+  postsPerPage?: number;
+  recentPosts?: number;
 
   // flags
-  showLogo?: boolean
+  showLogo?: boolean;
 
-  // browsing
-  browse?: BrowseConfig
+  // browse
+  browse?: BrowseConfig;
 }

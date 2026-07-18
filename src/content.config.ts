@@ -97,12 +97,13 @@ const siteConfig = defineCollection({
     recentPosts:    z.number().optional(),
     showLogo:       z.boolean().optional(),
     browse: z.object({
-      years:   z.boolean().optional(),
-      indexes: z.array(z.object({
-        key:   z.string(),
-        title: z.string(),
-        slug:  z.string(),
-      })).optional(),
+      dimensions: z.array(
+        z.object({
+          key: z.string(),
+          slug: z.string(),
+          title: z.string(),
+        }),
+      ).optional(),
     }).optional(),
   }),
 })

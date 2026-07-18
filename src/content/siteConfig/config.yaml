@@ -84,14 +84,25 @@
   # Generic index pages built from an optional `meta` object in post/note
   # frontmatter. Each entry below turns `meta.<key>` into a browsable
   # dimension at /browse/<slug>. Unconfigured meta keys are ignored.
-  # `slug` must not be "years" (that path is reserved for the date index).
 
   browse:
-    years: true
-    indexes:
+    dimensions:
+      - key: published
+        slug: years
+        title: Years
+
       - key: category
-        title: Categories
         slug: categories
+        title: Categories
+
+      - key: tags
+        slug: tags
+        title: Tags
+
       - key: trip
-        title: Trips
         slug: trips
+        title: Trips
+
+      - key: place
+        slug: places
+        title: Places

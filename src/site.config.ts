@@ -32,7 +32,6 @@ export const defaultConfig: UserConfig = {
 
   // Generic, no assumed keys — real indexes are configured per-site (see config.yaml).
   browse: {
-    years:   true,
-    indexes: [],
+    dimensions: [],
   },
 }

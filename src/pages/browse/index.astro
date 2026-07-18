@@ -1,24 +1,29 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader.astro";
-
 import BrowseDimensions from "@/components/BrowseDimensions.astro";
-import { getAllEntries } from "@/utils/content";
-import { getConfig } from "@/utils/config";
 
-const siteConfig = await getConfig();
-const indexes = siteConfig.browse?.indexes ?? [];
-const showYears = siteConfig.browse?.years ?? false;
+import { getAllPosts } from "@/utils/content";
+import { getBrowseDimensions } from "@/utils/browse";
 
-const allEntries = await getAllEntries();
+const posts = await getAllPosts();
 
+const dimensions = await getBrowseDimensions();
 ---
-<BaseLayout title="Browse">
+
+<BaseLayout
+    title="Browse"
+    description="Browse content by dimension."
+>
   <div class="page-width">
     <PageHeader
-      title="Browse"
-      lede="Find writing by year, category or trip"
+        title="Browse"
+        lede="Explore the content from different perspectives."
     />
-    <BrowseDimensions entries={allEntries} indexes={indexes} showYears={showYears} />
+
+    <BrowseDimensions
+        entries={posts}
+        dimensions={dimensions}
+    />
   </div>
 </BaseLayout>
