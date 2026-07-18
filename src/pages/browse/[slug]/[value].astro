@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader.astro";
+import Section from "@/components/Section.astro";
 import PostFeed from "@/components/Feed.astro";
-import { getAllPosts } from "@/utils/content";
+import NoteFeed from "@/components/NoteFeed.astro";
+import { getAllEntries } from "@/utils/content";
 import {
   getBrowseValues,
   filterBrowseEntries,
@@ -10,13 +12,13 @@ import {
 
 import { getBrowseDimensions } from "@/utils/browse";
 
-const posts = await getAllPosts();
+const entries = await getAllEntries();
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts();
+  const entries = await getAllEntries();
   const dimensions = await getBrowseDimensions();
   return dimensions.flatMap((dimension) =>
-    getBrowseValues(posts, dimension.key).map((value) => ({
+    getBrowseValues(entries, dimension.key).map((value) => ({
       params: {
         slug: dimension.slug,
         value: value.slug,
@@ -34,26 +36,37 @@ const {
   browseValue,
 } = Astro.props;
 
-const filteredPosts = filterBrowseEntries(
-  posts,
+const filteredEntries = filterBrowseEntries(
+  entries,
   dimension.key,
   browseValue.slug,
 );
+
+const posts = filteredEntries.filter((entry) => entry.collection === "posts");
+const notes = filteredEntries.filter((entry) => entry.collection === "notes");
 ---
 
 <BaseLayout
   title={browseValue.value}
-  description={`${filteredPosts.length} posts`}
+  description={`${filteredEntries.length} entries`}
 >
   <div class="page-width">
     <PageHeader
       title={browseValue.value}
-      lede=`Browse by ${dimension.title}`
+      lede={`Browse by ${dimension.title}`}
     />
 
-    <PostFeed
-      entries={filteredPosts}
-    />
+    {posts.length > 0 && (
+      <Section title="Posts">
+        <PostFeed entries={posts} />
+      </Section>
+    )}
+
+    {notes.length > 0 && (
+      <Section title="Notes">
+        <NoteFeed entries={notes} />
+      </Section>
+    )}
   </div>
 
 </BaseLayout>

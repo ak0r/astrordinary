@@ -3,10 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import BrowseDimensions from "@/components/BrowseDimensions.astro";
 
-import { getAllPosts } from "@/utils/content";
+import { getAllEntries } from "@/utils/content";
 import { getBrowseDimensions } from "@/utils/browse";
 
-const posts = await getAllPosts();
+const entries = await getAllEntries();
 
 const dimensions = await getBrowseDimensions();
 ---
@@ -22,7 +22,7 @@ const dimensions = await getBrowseDimensions();
     />
 
     <BrowseDimensions
-        entries={posts}
+        entries={entries}
         dimensions={dimensions}
     />
   </div>

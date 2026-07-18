@@ -1,43 +1,49 @@
-# Astro Starter Kit: Minimal
+# Patrika
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+A field-notebook blog template built on Astro 7, content collections, and Tailwind CSS v4. Content lives as Markdown/MDX and is meant to be edited from an Obsidian vault, but any editor works.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Content model
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/content/
+├── posts/          longer essays  (src/pages/posts/[...slug].astro)
+├── notes/          short entries  (src/pages/notes/[...slug].astro)
+├── pages/          standalone pages (about, now, colophon, ...)
+└── siteConfig/
+    └── config.yaml site identity, navigation, and browse dimensions
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Posts and notes share a `category`, `tags`, and a free-form `meta` object.
+Any key you add under `meta` (e.g. `trip`, `place`) becomes a browsable
+dimension automatically — configure it under `browse.dimensions` in
+`config.yaml`. `/browse/` lists every configured dimension; `/browse/<slug>/`
+lists its values; `/browse/<slug>/<value>/` lists the matching posts and
+notes.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Site-wide settings (title, author, navigation, hero text, browse dimensions)
+are defined in `src/site.config.ts` as defaults and overridden per-deployment
+in `src/content/siteConfig/config.yaml` — only override what you need.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Development
 
-## 🧞 Commands
+```sh
+astro dev --background   # start the dev server in the background
+astro dev stop            # stop it
+astro dev status          # check if it's running
+astro dev logs            # tail its output
+```
 
-All commands are run from the root of the project, from a terminal:
+```sh
+astro build     # build to ./dist/
+astro preview   # preview the production build locally
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Before you publish
 
-## 👀 Want to learn more?
+- `src/content/siteConfig/config.yaml` — replace the `# ← replace` placeholders (title, author, url, social links).
+- `astro.config.mjs` — set `site` to your real domain.
+- `src/content/pages/` and `src/content/posts|notes/` — replace the sample content with your own.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Learn more
+
+[Astro documentation](https://docs.astro.build)

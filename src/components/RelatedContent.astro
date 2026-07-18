@@ -1,0 +1,30 @@
+---
+import Section from "./Section.astro";
+import { getPostUrl, getNoteUrl } from "@/utils/content";
+import type { Post, Note } from "@/types";
+
+interface Props {
+  entries: (Post | Note)[];
+}
+
+const { entries } = Astro.props;
+---
+
+{entries.length > 0 && (
+  <Section title="Related Reading">
+    <ul class="space-y-2">
+      {entries.map((entry) => (
+        <li>
+          <h3 class="font-serif text-lg leading-tight">
+            <a
+              href={entry.collection === "posts" ? getPostUrl(entry.id, entry.filePath) : getNoteUrl(entry.id, entry.filePath)}
+              class="title-link"
+            >
+              {entry.data.title}
+            </a>
+          </h3>
+        </li>
+      ))}
+    </ul>
+  </Section>
+)}

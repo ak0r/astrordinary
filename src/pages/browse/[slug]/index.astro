@@ -3,10 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import BrowseValueList from "@/components/BrowseValueList.astro";
 
-import { getAllPosts } from "@/utils/content";
+import { getAllEntries } from "@/utils/content";
 import { getBrowseValues, getBrowseDimensions } from "@/utils/browse";
 
-const posts = await getAllPosts();
+const entries = await getAllEntries();
 
 export async function getStaticPaths() {
   const dimensions = await getBrowseDimensions();
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 
 const { dimension } = Astro.props;
 
-const values = getBrowseValues(posts, dimension.key);
+const values = getBrowseValues(entries, dimension.key);
 ---
 
 <BaseLayout

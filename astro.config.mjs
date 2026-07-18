@@ -8,6 +8,7 @@ import sitemap from "@astrojs/sitemap";
 import { wikilinkResolver, directiveToHtml, obsidianTextFormatting } from './src/plugins/satteri.ts';
 import { resolveVaultImagePaths, imageAttributes, galleryGrouping } from './src/plugins/satteri-gallery.ts';
 
+import satteriCallouts from 'satteri-callouts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -48,8 +49,19 @@ export default defineConfig({
 
   markdown: {
     processor: satteri({
-      mdastPlugins: [directiveToHtml, obsidianTextFormatting, resolveVaultImagePaths],
-      hastPlugins: [wikilinkResolver, imageAttributes, galleryGrouping],
+      mdastPlugins: [
+        directiveToHtml,
+        obsidianTextFormatting,
+        resolveVaultImagePaths,
+      ],
+      hastPlugins: [
+        wikilinkResolver,
+        imageAttributes,
+        galleryGrouping,
+        satteriCallouts({
+          theme: "obsidian",
+        }),
+      ],
       features: {
         wikilinks: true,
         directive: true,

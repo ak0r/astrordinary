@@ -95,7 +95,7 @@
   /* Images */
 
   .markdown-content img {
-    @apply my-8 h-auto w-full rounded-lg cursor-zoom-in aspect-3/2;
+    @apply my-1 h-auto w-full rounded-lg cursor-zoom-in aspect-3/2;
   }
 
   /* Figure */
