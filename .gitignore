@@ -22,3 +22,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.vscode/
+
+# agent working state
+.codex/
+.claude/
+
+# pagefind results
+public/pagefind/

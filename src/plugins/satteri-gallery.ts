@@ -10,12 +10,14 @@
  */
 
 import { fileURLToPath } from 'node:url';
+import { posix as pathPosix } from 'node:path';
 import type { Element, ElementContent, Text as HastText } from 'hast';
 
 // ── MDAST plugin: normalize vault-absolute image paths ───────────────────────
-// Content is flat per collection (src/content/posts/*.md alongside a shared
-// posts/attachments/ folder) rather than one directory per entry, so the only
-// vault-absolute form that occurs here is `<collection>/attachments/x.jpg`.
+// Handles both flat collections (src/content/posts/*.md + a shared
+// posts/attachments/) and nested, one-directory-per-entry posts
+// (src/content/posts/_travels/.../<slug>/attachments/) by resolving the
+// vault-absolute URL relative to the current file's own directory.
 function resolveVaultImageUrl(url: string, fileURL: URL | undefined): string {
   if (/^https?:\/\//.test(url)) return url;
   if (url.startsWith('/') || url.startsWith('./') || url.startsWith('../')) return url;
@@ -26,12 +28,15 @@ function resolveVaultImageUrl(url: string, fileURL: URL | undefined): string {
   if (url.startsWith('attachments/') || url.startsWith('images/')) return `./${url}`;
 
   if (fileURL) {
-    const path = fileURLToPath(fileURL).replace(/\\/g, '/');
-    const contentIndex = path.indexOf('/src/content/');
+    const filePath = fileURLToPath(fileURL).replace(/\\/g, '/');
+    const contentIndex = filePath.indexOf('/src/content/');
     if (contentIndex !== -1) {
-      const collection = path.slice(contentIndex + '/src/content/'.length).split('/')[0];
+      const relFromContentRoot = filePath.slice(contentIndex + '/src/content/'.length);
+      const collection = relFromContentRoot.split('/')[0];
       if (url.startsWith(`${collection}/`)) {
-        return `./${url.slice(collection.length + 1)}`;
+        const fileDir = pathPosix.dirname(relFromContentRoot);
+        const relative = pathPosix.relative(fileDir, url);
+        return relative.startsWith('.') ? relative : `./${relative}`;
       }
     }
   }

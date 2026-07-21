@@ -65,7 +65,7 @@ const notes = defineCollection({
 
 // ── siteConfig ────────────────────────────────────────────────────────────────
 const siteConfig = defineCollection({
-  loader: file('src/content/siteConfig/config.yaml'),
+  loader: file('src/content/site/config.yaml'),
   schema: z.object({
     title:       z.string().optional(),
     description: z.string().optional(),
