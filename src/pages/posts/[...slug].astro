@@ -94,7 +94,7 @@ const schema = {
         <PostGallery images={galleryImages} galleryId={post.id} />
       )}
     </article>
-    <RelatedContent entries={relatedEntries} />
+    <RelatedContent entry={post} />
   </div>
   <GalleryLightbox />
 </BaseLayout>

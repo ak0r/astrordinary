@@ -1,6 +1,7 @@
+import type { CollectionEntry } from "astro:content";
 import { getConfig } from "@/utils/config";
 import { slugify } from "@/utils/text"
-import type { CollectionEntry } from "astro:content";
+import type { Post, Note } from "@/types";
 
 export interface BrowseValue {
   value: string;
@@ -8,8 +9,7 @@ export interface BrowseValue {
   count: number;
 }
 
-type Entry = CollectionEntry<any>;
-
+type Entry = Post | Note;
 type BrowseExtractor = (entry: Entry) => string[];
 
 const siteConfig = await getConfig();
@@ -98,4 +98,52 @@ export function filterBrowseEntries<T extends Entry>(
 export async function getBrowseDimensions() {
     const siteConfig = await getConfig();
     return siteConfig.browse?.dimensions ?? [];
+}
+
+export function getBrowseValuesForEntry(
+  entry: Post | Note,
+  key: string,
+): BrowseValue[] {
+  switch (key) {
+    case "published": {
+      const year = entry.data.published.getFullYear().toString();
+
+      return [{
+        value: year,
+        slug: year,
+        count: 1,
+      }];
+    }
+
+    case "category": {
+      if (!entry.data.category) return [];
+
+      return [{
+        value: entry.data.category,
+        slug: slugify(entry.data.category),
+        count: 1,
+      }];
+    }
+
+    case "tags": {
+      return (entry.data.tags ?? []).map(tag => ({
+        value: tag,
+        slug: slugify(tag),
+        count: 1,
+      }));
+    }
+
+    default: {
+      const raw = entry.data.meta?.[key];
+      if (!raw) return [];
+
+      const values = Array.isArray(raw) ? raw : [raw];
+
+      return values.map(value => ({
+        value,
+        slug: slugify(value),
+        count: 1,
+      }));
+    }
+  }
 }
