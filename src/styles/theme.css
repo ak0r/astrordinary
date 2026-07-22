@@ -74,6 +74,12 @@
 
   /* image presentation */
   --thumbnail-ratio: 4 / 5;
+
+  --callout-note-color-light: var(--sky); 
+  --callout-tip-color-light: var(--cactus); 
+  --callout-warning-color-light: var(--clay); 
+  --callout-danger-color-light: var(--fig); 
+  --callout-success-color-light: var(--olive);
 }
 
 /* ───────────────────────────────────────────────────────────────

@@ -16,7 +16,7 @@ const { items } = Astro.props;
   <ul class="space-y-2">
     {items.map((item) => (
       <li class="flex gap-4 items-center">
-        <a href={item.href} class="font-serif text-lg hover:underline">
+        <a href={item.href} class="font-serif text-lg title-link">
           {item.label}
         </a>
         {item.meta && (

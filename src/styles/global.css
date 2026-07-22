@@ -45,6 +45,8 @@
     @apply grid gap-x-2 gap-y-1 my-6;
   }
 
+  .callout { @apply rounded-lg; }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
