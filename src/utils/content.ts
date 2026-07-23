@@ -158,12 +158,15 @@ export function getPostPathSegments(
     return [];
   }
 
-  return filePath
-    .replace(POSTS_PATH, "")
-    .split("/")
-    .filter(Boolean)
+  const parts = filePath.replace(POSTS_PATH, "").split("/").filter(Boolean);
+  // `<slug>/index.md` — the immediate parent directory is the entry's own
+  // slug-bearing directory (captured via id), not a breadcrumb segment.
+  const isIndexFile = /^index\.(md|mdx)$/i.test(parts.at(-1) ?? "");
+  const dropCount = isIndexFile ? 2 : 1;
+
+  return parts
+    .slice(0, parts.length - dropCount)
     .filter((segment) => !segment.startsWith("_"))
-    .slice(0, -1)
     .map(slugify);
 }
 
@@ -221,12 +224,13 @@ export function getPagePathSegments(
     return [];
   }
 
-  return filePath
-    .replace(PAGES_PATH, "")
-    .split("/")
-    .filter(Boolean)
+  const parts = filePath.replace(PAGES_PATH, "").split("/").filter(Boolean);
+  const isIndexFile = /^index\.(md|mdx)$/i.test(parts.at(-1) ?? "");
+  const dropCount = isIndexFile ? 2 : 1;
+
+  return parts
+    .slice(0, parts.length - dropCount)
     .filter((segment) => !segment.startsWith("_"))
-    .slice(0, -1)
     .map(slugify);
 }
 
@@ -294,12 +298,13 @@ export function getNotePathSegments(
     return [];
   }
 
-  return filePath
-    .replace(NOTES_PATH, "")
-    .split("/")
-    .filter(Boolean)
+  const parts = filePath.replace(NOTES_PATH, "").split("/").filter(Boolean);
+  const isIndexFile = /^index\.(md|mdx)$/i.test(parts.at(-1) ?? "");
+  const dropCount = isIndexFile ? 2 : 1;
+
+  return parts
+    .slice(0, parts.length - dropCount)
     .filter((segment) => !segment.startsWith("_"))
-    .slice(0, -1)
     .map(slugify);
 }
 

@@ -9,7 +9,7 @@ src/content/
 ├── posts/          longer essays  (src/pages/posts/[...slug].astro)
 ├── notes/          short entries  (src/pages/notes/[...slug].astro)
 ├── pages/          standalone pages (about, now, colophon, ...)
-└── siteConfig/
+└── site/
     └── config.yaml site identity, navigation, and browse dimensions
 ```
 
@@ -18,11 +18,16 @@ Any key you add under `meta` (e.g. `trip`, `place`) becomes a browsable
 dimension automatically — configure it under `browse.dimensions` in
 `config.yaml`. `/browse/` lists every configured dimension; `/browse/<slug>/`
 lists its values; `/browse/<slug>/<value>/` lists the matching posts and
-notes.
+notes. Every post/note detail page also cross-links its own values back into
+`/browse/...` via a "related" block.
 
 Site-wide settings (title, author, navigation, hero text, browse dimensions)
 are defined in `src/site.config.ts` as defaults and overridden per-deployment
-in `src/content/siteConfig/config.yaml` — only override what you need.
+in `src/content/site/config.yaml` — only override what you need.
+
+Full frontmatter schemas, file-layout conventions (flat vs. nested posts,
+image resolution, cover images, galleries), and known gotchas: see
+[CONTENT_CONTRACT.md](./CONTENT_CONTRACT.md).
 
 ## Development
 
@@ -40,7 +45,7 @@ astro preview   # preview the production build locally
 
 ## Before you publish
 
-- `src/content/siteConfig/config.yaml` — replace the `# ← replace` placeholders (title, author, url, social links).
+- `src/content/site/config.yaml` — replace the `# ← replace` placeholders (title, author, url, social links).
 - `astro.config.mjs` — set `site` to your real domain.
 - `src/content/pages/` and `src/content/posts|notes/` — replace the sample content with your own.
 

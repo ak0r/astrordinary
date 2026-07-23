@@ -7,12 +7,11 @@ import PostGallery from "@/components/PostGallery.astro";
 import GalleryLightbox from "@/components/GalleryLightbox.astro";
 import StructuredData from "@/components/StructuredData.astro";
 import RelatedContent from "@/components/RelatedContent.astro";
-import { getAllPosts, getAllEntries, getPostSlugPath } from "@/utils/content";
+import { getAllPosts, getPostSlugPath } from "@/utils/content";
 import { getCoverImage, getPostGallery } from "@/utils/image";
 import { formatDate, titleify, calculateReadingTime } from "@/utils/text";
 import { absoluteUrl, getOgImagePath } from "@/utils/url";
 import { getConfig } from "@/utils/config";
-import { getRelatedEntries } from "@/utils/related";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
@@ -32,8 +31,6 @@ const galleryImages = getPostGallery(post.filePath ?? '');
 const dateLabel = updated? formatDate(updated) : formatDate(published);
 const dtLabel = updated? updated.toISOString() : published.toISOString();
 const readingTimeLabel = calculateReadingTime(post.body ?? '').text;
-
-const relatedEntries = getRelatedEntries(post, await getAllEntries());
 
 const postPath = `/posts/${getPostSlugPath(post.id, post.filePath)}`;
 const schema = {
