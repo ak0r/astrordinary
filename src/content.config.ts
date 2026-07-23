@@ -1,6 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { z } from "astro/zod";
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 
 export const POSTS_PATH = "src/content/posts/";
 export const PAGES_PATH = "src/content/pages/";
@@ -14,7 +14,7 @@ function removeDupsAndLowerCase(array: string[]) {
 }
 
 // Author-defined extension point — Template assigns no meaning to any key
-// inside `meta`. See site.config.ts's `browse.indexes` for how a key
+// inside `meta`. See site/config.md's `browse.dimensions` for how a key
 // becomes a browsable dimension.
 const metaSchema = z.record(z.string(), z.union([z.string(), z.array(z.string())])).optional();
 
@@ -65,7 +65,7 @@ const notes = defineCollection({
 
 // ── siteConfig ────────────────────────────────────────────────────────────────
 const siteConfig = defineCollection({
-  loader: file('src/content/site/config.yaml'),
+  loader: glob({ pattern: 'config.md', base: './src/content/site' }),
   schema: z.object({
     title:       z.string().optional(),
     description: z.string().optional(),

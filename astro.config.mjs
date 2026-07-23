@@ -12,7 +12,7 @@ import satteriCallouts from 'satteri-callouts';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-site.example', // ← replace with your domain (also update config.yaml)
+  site: 'https://your-site.example', // ← replace with your domain (also update config.md)
 
   vite: {
     plugins: [tailwindcss()],

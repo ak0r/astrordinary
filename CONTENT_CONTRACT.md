@@ -13,7 +13,7 @@ disagree, the code wins; update this file to match.
 | `posts` | `glob('**/*.{md,mdx}')` | `src/content/posts/` | `/posts/<slug>/` |
 | `notes` | `glob('**/*.{md,mdx}')` | `src/content/notes/` | `/notes/<slug>/` |
 | `pages` | `glob('**/*.{md,mdx}')` | `src/content/pages/` | `/<slug>/` (root, no prefix) |
-| `siteConfig` | `file('src/content/site/config.yaml')` | one YAML file | not routed — read via `getConfig()` |
+| `siteConfig` | `glob({ pattern: 'config.md', base: './src/content/site' })` | one markdown file | not routed — read via `getConfig()` |
 
 ## `posts`
 
@@ -107,9 +107,12 @@ Notes live flat in `src/content/notes/*.md` with wikilink-style cross-references
 
 Routed at the site root with no `/pages/` prefix (`getPageUrl()`), e.g. `src/content/pages/about.md` → `/about`.
 
-## `siteConfig` (`src/content/site/config.yaml`)
+## `siteConfig` (`src/content/site/config.md`)
 
-Single YAML file, loaded as one entry with `id: config`. Validated fields: `title`, `description`, `url`, `locale`, `author.{name,bio,url,avatar}`, `logo`, `navigation[]`, `footerLinks[]`, `social[]` (`icon` restricted to `github | mastodon | twitter | rss | email`), `heroText`, `footerCredits`, `postsPerPage`, `recentPosts`, `showLogo`, `browse.dimensions[]`.
+Single markdown file, frontmatter-only (the body is in-file documentation,
+not read by the site). Loaded as one entry with id `config`, taken from the
+filename — don't add a `slug`/`id` field to the frontmatter, it would
+override that. Validated fields: `title`, `description`, `url`, `locale`, `author.{name,bio,url,avatar}`, `logo`, `navigation[]`, `footerLinks[]`, `social[]` (`icon` restricted to `github | mastodon | twitter | rss | email`), `heroText`, `footerCredits`, `postsPerPage`, `recentPosts`, `showLogo`, `browse.dimensions[]`.
 
 `getConfig()` (`src/utils/config.ts`) shallow-merges this file over `defaultConfig` in `src/site.config.ts` — only set the fields you want to override. `author` is merged one level deep (partial author overrides don't wipe sibling fields); everything else is a full replace, including `browse.dimensions` and `navigation`.
 
@@ -126,7 +129,7 @@ Enabled via the Sätteri processor in `astro.config.mjs`:
 
 ## Browse dimensions
 
-Configured under `browse.dimensions` in `site/config.yaml`, each entry: `{ key, slug, title }`.
+Configured under `browse.dimensions` in `site/config.md`, each entry: `{ key, slug, title }`.
 
 - `key: published` — built-in, groups by `published.getFullYear()`.
 - `key: category` — built-in, groups by `data.category`.

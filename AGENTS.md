@@ -24,7 +24,8 @@ invalidate it.
 ## Content architecture
 
 Content lives in `src/content/{posts,notes,pages}/` plus one site-config
-YAML file at `src/content/site/config.yaml`. The full frontmatter schema,
+markdown file at `src/content/site/config.md` (frontmatter = config, body =
+in-file documentation). The full frontmatter schema,
 file-layout rules (flat vs. nested posts, image path resolution, cover
 images, galleries), supported markdown syntax (wikilinks, callouts,
 highlights, directives), the browse-dimension system, and known gotchas
